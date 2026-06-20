@@ -51,10 +51,28 @@ public class InventoryManager {
     }
 
     private void createDefaultInventory() {
-        products.put("Coffee Americano", new Product("Coffee Americano", 120.0, 50));
-        products.put("Espresso Romano", new Product("Espresso Romano", 188.0, 40));
-        products.put("Coffee Milk", new Product("Coffee Milk", 90.0, 35));
-        products.put("Café Mocha", new Product("Café Mocha", 135.0, 30));
+        // --- BEBIDAS QUENTES ---
+        products.put("Espresso Simples", new Product("Espresso Simples", 5.90, 50));
+        products.put("Espresso Duplo", new Product("Espresso Duplo", 8.50, 40));
+        products.put("Macchiato", new Product("Macchiato", 9.90, 30));
+        products.put("Caffé Latte", new Product("Caffé Latte", 10.90, 30));
+        products.put("Cappuccino", new Product("Cappuccino", 11.90, 30));
+        products.put("Chocolate Quente", new Product("Chocolate Quente", 12.50, 30));
+        products.put("McCafé Canadá Quente", new Product("McCafé Canadá Quente", 14.90, 20));
+
+        // --- BEBIDAS GELADAS E SOBREMESAS ---
+        products.put("McCafé Canadá Gelado", new Product("McCafé Canadá Gelado", 14.90, 20));
+        products.put("Iced Latte", new Product("Iced Latte", 13.90, 25));
+        products.put("Iced Mix Café", new Product("Iced Mix Café", 15.90, 20));
+        products.put("Iced Mix Morango", new Product("Iced Mix Morango", 15.90, 20));
+        products.put("Affogato", new Product("Affogato", 15.90, 15));
+
+        // --- COMIDINHAS ---
+        products.put("Pão de Queijo", new Product("Pão de Queijo", 5.50, 60));
+        products.put("Mini Pão de Queijo", new Product("Mini Pão de Queijo", 8.90, 40));
+        products.put("Croissant de Chocolate", new Product("Croissant de Chocolate", 11.50, 20));
+        products.put("Cookies de baunilha", new Product("Cookies de baunilha", 7.00, 30));
+        products.put("Cookies de chocolate", new Product("Cookies de chocolate", 7.00, 30));
     }
 
     public Product getProduct(String name) { return products.get(name); }

@@ -54,7 +54,7 @@ public class OrderEntryPanel extends JPanel {
         panel.setBackground(Color.decode("#1E1E2E")); 
 
         JLabel lblTitle = new JLabel("🛒 Pedido Atual");
-        lblTitle.setFont(new Font("SansSerif", Font.BOLD, 18));
+        lblTitle.setFont(new Font("SansSerif", Font.BOLD, 22));
         lblTitle.setForeground(Color.WHITE);
         panel.add(lblTitle, BorderLayout.NORTH);
 
@@ -63,30 +63,32 @@ public class OrderEntryPanel extends JPanel {
         
         cartList.setBackground(Color.decode("#282A36")); 
         cartList.setForeground(Color.decode("#F8F8F2")); 
-        cartList.setFont(new Font("SansSerif", Font.PLAIN, 15));
+        cartList.setFont(new Font("SansSerif", Font.PLAIN, 18));
         
         JScrollPane scrollPane = new JScrollPane(cartList);
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
+        scrollPane.getVerticalScrollBar().setUnitIncrement(20);
         panel.add(scrollPane, BorderLayout.CENTER);
 
-        JPanel bottomPanel = new JPanel(new GridLayout(6, 1, 8, 8));
+        JPanel bottomPanel = new JPanel(new GridLayout(7, 1, 8, 8));
         bottomPanel.setBackground(Color.decode("#1E1E2E")); 
         
         lblSubtotal = new JLabel("Subtotal: R$ 0,00");
         lblSubtotal.setForeground(Color.LIGHT_GRAY);
-        lblSubtotal.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        lblSubtotal.setFont(new Font("SansSerif", Font.PLAIN, 18));
         
         lblTax = new JLabel("Taxa (10%): R$ 0,00");
         lblTax.setForeground(Color.LIGHT_GRAY);
-        lblTax.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        lblTax.setFont(new Font("SansSerif", Font.PLAIN, 18));
 
         lblTotal = new JLabel("TOTAL: R$ 0,00");
-        lblTotal.setFont(new Font("SansSerif", Font.BOLD, 22));
+        lblTotal.setFont(new Font("SansSerif", Font.BOLD, 30));
         lblTotal.setForeground(Color.decode("#FF79C6")); 
 
         JButton btnFinalize = createRoundedButton("Finalizar Venda", "#50FA7B", "#1E1E2E"); 
         JButton btnDailySummary = createRoundedButton("Resumo Diário", "#8BE9FD", "#1E1E2E"); 
         JButton btnClear = createRoundedButton("Limpar Carrinho", "#FF5555", "#FFFFFF"); 
+        JButton btnRemoveItem = createRoundedButton("Remover Item", "#FFB86C", "#1E1E2E"); // Cor Laranja
 
         btnFinalize.addActionListener(e -> finalizeSale());
         btnDailySummary.addActionListener(e -> showDailySummary());
@@ -95,10 +97,21 @@ public class OrderEntryPanel extends JPanel {
             updateCartView();
         });
 
+        btnRemoveItem.addActionListener(e -> {
+            int selectedIndex = cartList.getSelectedIndex(); // Pega a linha selecionada
+            if (selectedIndex != -1) {
+                currentOrder.removeItemByIndex(selectedIndex); // Remove do pedido
+                updateCartView(); // Atualiza a tela
+            } else {
+                JOptionPane.showMessageDialog(this, "Selecione um item no carrinho para remover.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            }
+        });
+
         bottomPanel.add(lblSubtotal);
         bottomPanel.add(lblTax);
         bottomPanel.add(lblTotal);
         bottomPanel.add(btnFinalize);
+        bottomPanel.add(btnRemoveItem);
         bottomPanel.add(btnDailySummary);
         bottomPanel.add(btnClear);
 
@@ -150,6 +163,11 @@ public class OrderEntryPanel extends JPanel {
             
             for (String ext : extensoes) {
                 File imgFile = new File("imagens/" + product.getName() + ext);
+
+                if (!imgFile.exists()) {
+                    imgFile = new File("JavaCafe/imagens/" + product.getName() + ext);
+                }
+
                 if (imgFile.exists()) {
                     ImageIcon originalIcon = new ImageIcon(imgFile.getAbsolutePath());
                     
@@ -187,11 +205,11 @@ public class OrderEntryPanel extends JPanel {
             footer.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 10)); 
 
             JLabel lblName = new JLabel(product.getName());
-            lblName.setFont(new Font("SansSerif", Font.BOLD, 15));
+            lblName.setFont(new Font("SansSerif", Font.BOLD, 18));
             lblName.setForeground(Color.WHITE);
 
             JLabel lblPrice = new JLabel(String.format("R$ %.2f", product.getPrice()));
-            lblPrice.setFont(new Font("SansSerif", Font.PLAIN, 13));
+            lblPrice.setFont(new Font("SansSerif", Font.PLAIN, 16));
             lblPrice.setForeground(Color.decode("#50FA7B")); 
 
             footer.add(lblName);
@@ -210,6 +228,7 @@ public class OrderEntryPanel extends JPanel {
         scrollPane.setBorder(BorderFactory.createEmptyBorder()); 
         scrollPane.getViewport().setBackground(Color.decode("#1E1E2E")); 
         scrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(8, 0)); 
+        scrollPane.getVerticalScrollBar().setUnitIncrement(20);
         
         return scrollPane;
     }
@@ -226,7 +245,7 @@ public class OrderEntryPanel extends JPanel {
                 g2.dispose();
             }
         };
-        btn.setFont(new Font("SansSerif", Font.BOLD, 15));
+        btn.setFont(new Font("SansSerif", Font.BOLD, 18));
         btn.setForeground(Color.decode(fgColorHex)); 
         btn.setContentAreaFilled(false); 
         btn.setFocusPainted(false);

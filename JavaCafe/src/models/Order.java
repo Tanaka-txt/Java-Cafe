@@ -36,6 +36,21 @@ public class Order {
         calculateTotals();
     }
 
+    public void removeItemByIndex(int index) {
+        if (index >= 0 && index < items.size()) {
+            OrderItem item = items.get(index);
+            
+            // Se tiver mais de 1, apenas diminui a quantidade
+            if (item.getQuantity() > 1) {
+                item.setQuantity(item.getQuantity() - 1);
+            } else {
+                // Se for só 1, remove o produto inteiro do carrinho
+                items.remove(index);
+            }
+            calculateTotals(); // Recalcula o subtotal e totais
+        }
+    }
+    
     // Calcula os valores toda vez que um item é adicionado
     private void calculateTotals() {
         subtotal = 0.0;
