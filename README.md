@@ -4,7 +4,7 @@ Um sistema de Ponto de Venda desenvolvido como trabalho final da disciplina de *
 
 ## 💻 Sobre o Projeto
 O sistema simula o terminal de caixa e a gestão de estoque de um café. O objetivo principal foi aplicar os conceitos de Orientação a Objetos na prática, separando o projeto em pacotes organizados (Models, Views e Persistence) para manter o código estruturado e integrado a uma interface gráfica.
-![Tela do Java Café](Tela Java Café.png)
+![Tela do Java Café](tela-java-cafe.png)
 
 ## ✨ Funcionalidades
 - **Entrada de Pedidos (Caixa):** Interface interativa com botões de produtos, cálculo automático de subtotal, taxas (10%) e total.
