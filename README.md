@@ -28,8 +28,7 @@ O sistema simula o terminal de caixa e a gestão de estoque de um café. O objet
 ### Passo a Passo
 
 1. **Clone o repositório** para a sua máquina local:
-   ```bash
-   git clone [https://github.com/Tanaka-txt/Java-Cafe.git](https://github.com/Tanaka-txt/Java-Cafe.git)
+   
 2. **Abra a pasta do projeto** (`JavaCafe`) em uma IDE compatível (Eclipse, VS Code, IntelliJ, etc.).
 
 3. **Certifique-se** de que a pasta `src` está configurada como o diretório principal de fontes (*Source Folder*).
