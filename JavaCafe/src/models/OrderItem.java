@@ -1,7 +1,5 @@
 package models;
 
-import exceptions.OutOfStockException;
-
 public class OrderItem {
 	private Product product;
     private int quantity;
