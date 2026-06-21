@@ -40,6 +40,6 @@ O sistema simula o terminal de caixa e a gestão de estoque de um café. O objet
 *(Nota: Não é necessária a configuração prévia de bancos de dados ou servidores externos, pois o sistema cria e consome seus próprios arquivos de texto localmente na raiz do projeto).*
 
 ## 👥 Equipe de Desenvolvimento
-- [Giovana Rafaela Marmo de Almeida]
-- [Júlio César Tanaka Vergamini]
-- [Laysa Almeida Oliveira]
+- Giovana Rafaela Marmo de Almeida
+- Júlio César Tanaka Vergamini
+- Laysa Almeida Oliveira
