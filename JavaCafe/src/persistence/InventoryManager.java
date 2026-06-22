@@ -3,35 +3,50 @@ package persistence;
 import models.Product;
 import java.io.*;
 import java.util.*;
+/*
+ * Usada para Salvar e carregar os produtos do arquivo de texto. É o principal fator
+ * para a abertura do programa estar sempre atualizada.
+ * 
+ * O inventoryPanel precisa que uma outra classe abra o arquivo.csv nesse caso o
+ * responsável por isso é esse código, ele pede pra esse código com o 
+ * 
+ * getAllProducts() = pede os produtos
+ * AddOrUpdateProduct() = add novo produto ou edita
+ * saveInventory() = para reescrever o csv com novos dados
+ * 
+ * O OrderEntryPanel.java  usa essa classe para criar a aba principal dos nosso produtos
+ * 
+*/
 
+// Constructor
 public class InventoryManager {
-    private String filePath;
-    private Map<String, Product> products;
+    private String filePath; // guarda o caminho do arquivo
+    private Map<String, Product> products; // guarda os produtos em memória
 
     public InventoryManager(String filePath) {
-        this.filePath = filePath;
-        this.products = new LinkedHashMap<>(); 
-    }
+        this.filePath = filePath; // recebe o caminho do arquivo
+        this.products = new LinkedHashMap<>(); // recebimento chave valor
+}
 
-    public void loadInventory() {
-        File file = new File(filePath);
-        if (!file.exists()) {
-            createDefaultInventory();
-            saveInventory();
+    public void loadInventory() { // Carregamento dos dados
+        File file = new File(filePath); // 
+        if (!file.exists()) { // Verificação se o arquivo existe, se não :
+            createDefaultInventory(); // Cria um cardápio padrão
+            saveInventory(); // salva o inventory
             return;
         }
 
-        products.clear();
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            br.readLine(); 
+    products.clear(); // limpa a memória para garantir que não tem nada
+    	try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+    		br.readLine(); // lê cabeçalho do csv 
             String line;
-            while ((line = br.readLine()) != null) {
-                String[] data = line.split(",");
-                if (data.length == 3) {
-                    String name = data[0].trim();
-                    double price = Double.parseDouble(data[1].trim());
-                    int stock = Integer.parseInt(data[2].trim());
-                    products.put(name, new Product(name, price, stock));
+            while ((line = br.readLine()) != null) { // loop para leitura de linha a linha até null
+                String[] data = line.split(","); // virgula serve como separador
+                if (data.length == 3) { // verificação para validação de 3 indices
+                    String name = data[0].trim(); // .trim é usado para remover espaços na entrada do data[0] = nome do produto
+                    double price = Double.parseDouble(data[1].trim()); // Conversão para numero para contas
+                    int stock = Integer.parseInt(data[2].trim()); // conversão para numeros
+                    products.put(name, new Product(name, price, stock)); // criação do objeto para inserir no mapa products
                 }
             }
         } catch (IOException | NumberFormatException e) {
@@ -39,18 +54,26 @@ public class InventoryManager {
         }
     }
 
-    public void saveInventory() {
+    public void saveInventory() { // Escrita dos dados estoque
+    	// Esse try garante que o arquivo seja fechado automaticamente após a escrita
+    	// mesmo que acontece um erro. Evita travamento
+    	// o FileWrinter abre o arquivo para escrita, por não ter um true, ele reescreve por
+    	// cima de tudo
         try (PrintWriter pw = new PrintWriter(new FileWriter(filePath))) {
             pw.println("Nome,Preco,Quantidade");
-            for (Product product : products.values()) {
+            // chave : valor
+            for (Product product : products.values()) { // extrai a lista de objetos
+            	// padrão de escrita csv
                 pw.println(product.getName() + "," + product.getPrice() + "," + product.getStockQuantity());
             }
-        } catch (IOException e) {
-            System.err.println("Erro ao salvar o estoque: " + e.getMessage());
+        } catch (IOException e) { // se qaulquer erro der cai aqui
+            System.err.println("Erro ao salvar o estoque: " + e.getMessage()); // pront erro do Exceptions
         }
     }
-
-    private void createDefaultInventory() {
+    
+    // Só é usado se caso não houver nada ainda no programa, ai esse é uma inicialização
+    private void createDefaultInventory() { // Fallback
+    	// Insere os dados dos produtos com o .put (garante que não inicie vazio)
         // --- BEBIDAS QUENTES ---
         products.put("Espresso Simples", new Product("Espresso Simples", 5.90, 50));
         products.put("Espresso Duplo", new Product("Espresso Duplo", 8.50, 40));
@@ -75,18 +98,25 @@ public class InventoryManager {
         products.put("Cookies de chocolate", new Product("Cookies de chocolate", 7.00, 30));
     }
 
-    public Product getProduct(String name) { return products.get(name); }
+    // Usa o nome como chave para devolver o objeto do produto instantaneamente.
+    public Product getProduct(String name) { 
+    	return products.get(name); 
+    }
     
-    public Collection<Product> getAllProducts() { return products.values(); }
-
+    // GetAllProducts devolve a coleção completa 
+    public Collection<Product> getAllProducts() { 
+    	return products.values(); 
+    }
+    
+    // Add ou edit produtos
     public void addOrUpdateProduct(Product product) {
-        products.put(product.getName(), product);
-        saveInventory();
+        products.put(product.getName(), product); // .put(chave, valor)
+        saveInventory(); // salva
     }
 
     // NOVO: Remove um produto permanentemente
-    public void removeProduct(String name) {
-        products.remove(name);
-        saveInventory();
+    public void removeProduct(String name) { // remove produto do products
+        products.remove(name); // remove
+        saveInventory(); // salve no csv
     }
 }
